@@ -24,6 +24,7 @@ async function run() {
     await client.connect();
 
     const productsCollection = client.db("techNuggetDB").collection("products");
+    const cartCollection = client.db("techNuggetDB").collection("cart");
 
     // Products API
     app.get("/products", async (req, res) => {
@@ -66,6 +67,15 @@ async function run() {
         },
       };
       const result = await productsCollection.updateOne(filter, product);
+      res.send(result);
+    });
+
+    // Cart API
+    
+    app.post("/cart", async (req, res) => {
+      const newCart = req.body;
+      console.log(newCart);
+      const result = await cartCollection.insertOne(newCart);
       res.send(result);
     });
 
